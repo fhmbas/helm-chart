@@ -1,15 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "my-nginx.fullname" . }}
+  creationTimestamp: null
   labels:
-    {{- include "my-nginx.labels" . | nindent 4 }}
+    app: my-nginx
+    app.kubernetes.io/managed-by: Helm
+  name: my-nginx
+  namespace: my-nginx
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - port: 80
+    protocol: TCP
+    targetPort: 80
   selector:
-    {{- include "my-nginx.selectorLabels" . | nindent 4 }}
+    app: my-nginx
+status:
+  loadBalancer: {}
